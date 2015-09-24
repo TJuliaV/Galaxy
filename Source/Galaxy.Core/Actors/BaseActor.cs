@@ -1,5 +1,7 @@
 ﻿#region using
 
+using System;
+using System.Diagnostics;
 using System.Drawing;
 using Galaxy.Core.Environment;
 
@@ -62,23 +64,25 @@ namespace Galaxy.Core.Actors
 
     public bool IsPressed(VirtualKeyStates key)
     {
-      return KeyState.IsPressed(key);
+      var isPressed = KeyState.IsPressed(key);
+      //
+      return isPressed;
     }
 
     public virtual void Update()
     {
       Size levelSize = Info.GetLevelSize();
 
-      if(Position.X > levelSize.Width)
+      if (Position.X > levelSize.Width)
         Position = new Point(0, Position.Y);
 
-      if(Position.X < 0)
+      if (Position.X < 0)
         Position = new Point(levelSize.Width, Position.Y);
 
-      if(Position.Y > levelSize.Height)
+      if (Position.Y > levelSize.Height)
         Position = new Point(Position.X, 0);
 
-      if(Position.Y < 0)
+      if (Position.Y < 0)
         Position = new Point(Position.X, levelSize.Height);
     }
 

@@ -36,7 +36,8 @@ namespace Galaxy.Core.Collision
              && h_collidedWith(actorTmp, baseActor);
     }
 
-    private static bool h_collidedWith(BaseActor actor1, BaseActor actor2)
+    private static bool h_collidedWith(BaseActor actor1,
+                                       BaseActor actor2)
     {
       Rectangle rectangle1;
       {

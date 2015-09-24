@@ -47,6 +47,7 @@
     <Compile Include="Actors\Player.cs" />
     <Compile Include="Actors\Ship.cs" />
     <Compile Include="Actors\Bullet.cs" />
+    <Compile Include="Actors\Spaceship.cs" />
     <Compile Include="LevelOne.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -67,6 +68,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\ship.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\spaceship.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
