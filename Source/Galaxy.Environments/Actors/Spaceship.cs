@@ -29,12 +29,8 @@ namespace Galaxy.Environments.Actors
 
     public override void Load()
     {
+        base.Load();
         Load(@"Assets\spaceship.png");
-        if (m_flyTimer == null)
-        {
-            m_flyTimer = new Stopwatch();
-            m_flyTimer.Start();
-        }
     }
 
   }
