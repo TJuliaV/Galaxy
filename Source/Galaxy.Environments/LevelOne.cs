@@ -1,5 +1,6 @@
 ﻿#region using
 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -63,6 +64,30 @@ namespace Galaxy.Environments
 
     #region Overrides
 
+      private void WorkWithEnemyBullet()
+      {
+          //пули создаются
+          Spaceship[] spaceship = Actors.Where(actor => actor is Spaceship).Cast<Spaceship>().ToArray();
+          var time = DateTime.Now.Millisecond;
+          if (time%33 == 0)
+          {
+              foreach (var ship in spaceship)
+              {
+                  Actors.Add(ship.NewEnemyBullet(ship));
+              }
+          }
+          
+          //пули, долетевшие до низа, уничтожаются
+          EnemyBullet[] bullets = Actors.Where(actor => actor is EnemyBullet).Cast<EnemyBullet>().ToArray();
+          foreach (var bul in bullets)
+          {
+              if (bul.Position.Y >= BaseLevel.DefaultHeight)
+              {
+                  Actors.Remove(bul);
+              }
+          }
+      }
+
     private void h_dispatchKey()
     {
       if (!IsPressed(VirtualKeyStates.Space)) return;
@@ -80,6 +105,9 @@ namespace Galaxy.Environments
 
     public override BaseLevel NextLevel()
     {
+
+        //возвращать на мой уровень
+
       return new StartScreen();
     }
 
@@ -88,7 +116,8 @@ namespace Galaxy.Environments
       m_frameCount++;
       h_dispatchKey();
 
-      base.Update();
+        base.Update();
+        WorkWithEnemyBullet();
 
       IEnumerable<BaseActor> killedActors = CollisionChecher.GetAllCollisions(Actors);
 

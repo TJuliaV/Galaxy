@@ -26,6 +26,15 @@ namespace Galaxy.Environments.Actors
 
     #endregion
 
+       public EnemyBullet NewEnemyBullet(Spaceship spaceship)
+       {
+           EnemyBullet bullet = new EnemyBullet(Info);
+           int positionY = spaceship.Position.Y + 30;
+           int positionX = spaceship.Position.X + 15;
+           bullet.Position = new Point(positionX, positionY);
+           bullet.Load();
+           return bullet;
+       }
 
     public override void Load()
     {
@@ -33,5 +42,11 @@ namespace Galaxy.Environments.Actors
         Load(@"Assets\spaceship.png");
     }
 
+       public override void Update()
+       {
+           base.Update();
+           EnemyBullet enemyBullet = new EnemyBullet(Info);
+           
+       }
   }
 }

@@ -16,8 +16,8 @@ namespace Galaxy.Environments.Actors
   {
     #region Constant
 
-    protected const int MaxSpeed = 3;
-    protected const long StartFlyMs = 2000;
+    protected const int MaxSpeed = 1;
+    protected const long StartFlyMs = 1000;
 
     #endregion
 
