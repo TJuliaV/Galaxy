@@ -41,11 +41,11 @@ namespace Galaxy.Environments
 
           if (i%2 == 0)
           {
-              ship.m_styleoffly = "1";
+              ship.m_styleoffly = StyleOfFly.Sin;
           }
           else
           {
-              ship.m_styleoffly = "2";
+              ship.m_styleoffly = StyleOfFly.Cos;
           }
 
         Actors.Add(ship);
@@ -58,7 +58,7 @@ namespace Galaxy.Environments
 
           spaceship.Position = new Point(positionX, positionY);
 
-          spaceship.m_styleoffly = "0";
+          spaceship.m_styleoffly = StyleOfFly.Vector;
 
           Actors.Add(spaceship);
       }
@@ -137,7 +137,9 @@ namespace Galaxy.Environments
         base.Update();
         WorkWithEnemyBullet();
 
-      IEnumerable<BaseActor> killedActors = CollisionChecher.GetAllCollisions(Actors);
+      List<BaseActor> lst = Actors.Where(o => o.IsAlive).ToList();
+
+      IEnumerable<BaseActor> killedActors = CollisionChecher.GetAllCollisions(lst);
 
       foreach (BaseActor killedActor in killedActors)
       {

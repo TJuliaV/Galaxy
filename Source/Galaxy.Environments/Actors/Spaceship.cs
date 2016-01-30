@@ -41,12 +41,5 @@ namespace Galaxy.Environments.Actors
         base.Load();
         Load(@"Assets\spaceship.png");
     }
-
-       public override void Update()
-       {
-           base.Update();
-           EnemyBullet enemyBullet = new EnemyBullet(Info);
-           
-       }
   }
 }

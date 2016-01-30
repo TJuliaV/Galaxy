@@ -1,6 +1,7 @@
 #region using
 
 using System.Diagnostics;
+using System.Drawing;
 using Galaxy.Core.Environment;
 
 #endregion
@@ -51,7 +52,7 @@ namespace Galaxy.Core.Actors
     public override void Update()
     {
       base.Update();
-
+        
       h_checkDeth();
     }
 
@@ -61,16 +62,20 @@ namespace Galaxy.Core.Actors
 
     private void h_checkDeth()
     {
-      if (m_dethAnimation && m_dethTimer.ElapsedMilliseconds > DethTimeMs)
+      if (m_dethAnimation)
       {
-        CanDrop = true;
+          Position = new Point(Position.X, Position.Y + 2);
+          if (Position.Y >= Info.GetLevelSize().Height)
+          {
+               CanDrop = true;
+          }
       }
     }
 
     private void h_startDethAnimation()
     {
-      m_dethTimer = new Stopwatch();
-      m_dethTimer.Start();
+      //m_dethTimer = new Stopwatch();
+      //m_dethTimer.Start();
       Load(@"Assets\deth.png");
     }
 

@@ -28,7 +28,7 @@ namespace Galaxy.Environments.Actors
 
     #endregion
 
-      public string m_styleoffly;
+      public StyleOfFly m_styleoffly;
 
     #region Constructors
 
@@ -91,7 +91,7 @@ namespace Galaxy.Environments.Actors
         int newX = 0;
         int newY = 0;
 
-        if (m_styleoffly == "0")
+        if (m_styleoffly == StyleOfFly.Vector)
         {
               Vector distance = new Vector(playerPosition.X - Position.X, playerPosition.Y - Position.Y);
               double coef = distance.X / MaxSpeed;
@@ -114,16 +114,21 @@ namespace Galaxy.Environments.Actors
             newY = (int) (Position.Y + movement.Y);
         }
 
-        if (m_styleoffly == "1")
+        if (m_styleoffly == StyleOfFly.Sin)
         {
             newX = Position.X + 1;
             newY = (int)(Position.Y + Math.Round(Math.Sin(Position.X / 40)));
 
         }
-        if (m_styleoffly == "2")
+        if (m_styleoffly == StyleOfFly.Cos)
         {
             newX = Position.X - 1;
             newY = (int)(Position.Y + Math.Round(Math.Cos(Position.X / 50)));
+        }
+        if (m_styleoffly == StyleOfFly.Deth)
+        {
+            newX = Position.X;
+            newY = Position.Y-2;
         }
 
       Position = new Point(newX, newY);

@@ -76,9 +76,6 @@ namespace Galaxy.Environments
 
     public override BaseLevel NextLevel()
     {
-
-        //возвращать на мой уровень
-
       return new StartScreen();
     }
 
