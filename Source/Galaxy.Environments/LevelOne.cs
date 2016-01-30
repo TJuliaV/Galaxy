@@ -50,18 +50,18 @@ namespace Galaxy.Environments
 
         Actors.Add(ship);
       }
-      for (int i = 0; i < 7; i++)
-      {
-          var spaceship = new Spaceship(this);
-          int positionY = spaceship.Height + 50;
-          int positionX = 110 + i * (spaceship.Width + 55);
+      //for (int i = 0; i < 7; i++)
+      //{
+      //    var spaceship = new Spaceship(this);
+      //    int positionY = spaceship.Height + 50;
+      //    int positionX = 110 + i * (spaceship.Width + 55);
 
-          spaceship.Position = new Point(positionX, positionY);
+      //    spaceship.Position = new Point(positionX, positionY);
 
-          spaceship.m_styleoffly = StyleOfFly.Vector;
+      //    spaceship.m_styleoffly = StyleOfFly.Vector;
 
-          Actors.Add(spaceship);
-      }
+      //    Actors.Add(spaceship);
+      //}
 
       //SuperEnemy
       var lightning = new Lightning(this);

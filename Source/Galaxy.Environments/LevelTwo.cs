@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,8 @@ namespace Galaxy.Environments
     public class LevelTwo: BaseLevel
     {
         private int m_frameCount;
-
+        private long m_gameTime = 60000;
+        private Stopwatch m_gameTimer;
     #region Constructors
 
     /// <summary>
@@ -23,28 +25,20 @@ namespace Galaxy.Environments
     public LevelTwo()
     {
       // Backgrounds
-      FileName = @"Assets\LevelTwo.png";
+      FileName = @"Assets\LevelOne.png";
+        m_gameTimer = new Stopwatch();
+        m_gameTimer.Start();
 
       // Enemies
-      for (int i = 0; i < 5; i++)
+      for (int i = 0; i < 4; i++)
       {
           var ship = new Enemy1ForLevelTwo(this);
-        int positionY = ship.Height + 100;
-        int positionX = 150 + i * (ship.Width + 70);
+        int positionY = ship.Height + 30;
+        int positionX = 150 + i * (ship.Width + 80);
 
         ship.Position = new Point(positionX, positionY);
 
         Actors.Add(ship);
-      }
-      for (int i = 0; i < 7; i++)
-      {
-          var spaceship = new Enemy2ForLevelTwo(this);
-          int positionY = spaceship.Height + 50;
-          int positionX = 110 + i * (spaceship.Width + 55);
-
-          spaceship.Position = new Point(positionX, positionY);
-
-          Actors.Add(spaceship);
       }
 
       // Player
@@ -58,6 +52,30 @@ namespace Galaxy.Environments
     #endregion
 
     #region Overrides
+        
+    private void WorkWithEnemyBullet()
+    {
+        //пули создаются
+        Enemy1ForLevelTwo[] spaceship = Actors.Where(actor => actor is Enemy1ForLevelTwo && actor.IsAlive).Cast<Enemy1ForLevelTwo>().ToArray();
+        var time = DateTime.Now.Millisecond;
+        if (time % 59 == 0)
+        {
+            foreach (var ship in spaceship)
+            {
+                Actors.Add(ship.NewEnemyBullet(ship));
+            }
+        }
+
+        //пули, долетевшие до низа, уничтожаются
+        EnemyBullet[] bullets = Actors.Where(actor => actor is EnemyBullet).Cast<EnemyBullet>().ToArray();
+        foreach (var bul in bullets)
+        {
+            if (bul.Position.Y >= BaseLevel.DefaultHeight)
+            {
+                Actors.Remove(bul);
+            }
+        }
+    }
 
     private void h_dispatchKey()
     {
@@ -84,30 +102,22 @@ namespace Galaxy.Environments
       m_frameCount++;
       h_dispatchKey();
 
-        base.Update();
+      base.Update();
+      WorkWithEnemyBullet();
 
-      IEnumerable<BaseActor> killedActors = CollisionChecher.GetAllCollisions(Actors);
+        List<BaseActor> lst = Actors.Where(o => o.IsAlive).ToList();
+        IEnumerable<BaseActor> killedActors = CollisionChecher.GetAllCollisions(lst);
 
       foreach (BaseActor killedActor in killedActors)
       {
         if (killedActor.IsAlive)
           killedActor.IsAlive = false;
       }
-
-      List<BaseActor> toRemove = Actors.Where(actor => actor.CanDrop).ToList();
-      BaseActor[] actors = new BaseActor[toRemove.Count()];
-      toRemove.CopyTo(actors);
-
-      foreach (BaseActor actor in actors.Where(actor => actor.CanDrop))
-      {
-        Actors.Remove(actor);
-      }
-
+        
       if (Player.CanDrop)
-        Failed = true;
-
-      //has no enemy
-      if (Actors.All(actor => actor.ActorType != ActorType.Enemy))
+          Failed = true;
+        
+      if (m_gameTimer.ElapsedMilliseconds > m_gameTime)
         Success = true;
     }
 
